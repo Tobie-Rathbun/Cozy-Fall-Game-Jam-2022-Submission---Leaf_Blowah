@@ -1,34 +1,36 @@
-import pygame as pg
+import pygame
+import sys, os
 
-_ = False
-mini_map = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1],
-    [1, _, _, 1, 1, 1, 1, _, _, _, 1, _, _, _, _, 1],
-    [1, _, _, 1, _, _, _, _, _, _, 1, _, _, _, _, 1],
-    [1, _, _, 1, _, _, _, _, _, _, 1, _, 1, 1, 1, 1],
-    [1, _, _, _, _, _, _, _, _, _, 1, _, _, _, _, 1],
-    [1, _, _, _, _, _, _, _, _, _, _, _, _, _, _, 1],
-    [1, _, _, _, _, _, _, _, _, _, 1, _, _, _, _, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-]
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+img_dir = resource_path("img")
+
 
 class Map:
     def __init__(self, game):
         self.game = game
-        self.mini_map = mini_map
-        self.world_map = {}
-        self.get_map()
+        self.map_list = self.get_map()
+        self.map_pos = 0, 0
 
     def get_map(self):
-        for j, row in enumerate(self.mini_map):
-            for i, value in enumerate(row):
-                if value:
-                    self.world_map[(i, j)] = value
+        self.map_tiles = []
+        for tile in range(4):
+            self.tile = pygame.image.load(os.path.join(img_dir, "Path0{}.png".format(tile)))
+            self.map_tiles.append(self.tile)
 
-    def draw(self):
-        [pg.draw.rect(self.game.screen, 'darkgray', (pos[0] * 100, pos[1] * 100, 100, 100), 2)
-        for pos in self.world_map]
+        #print(self.map_tiles)  #debug
+        return self.map_tiles
+
+    def move_map(self): # , speed_x
+        pass
+
+
+    def update(self):
+        self.move_map()
+        pass
 
 
 
