@@ -1,5 +1,11 @@
 import math
+import pygame
 # /// Settings for the Game ///
+
+#game title
+TITLE = "Leaf Blowah"
+#load the game window icon
+APP_ICON = pygame.image.load("img/Fall_Leaf.png")
 
 #screen variables
 RES = WIDTH, HEIGHT = 1600, 900

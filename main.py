@@ -8,19 +8,23 @@ from player import *
 
 #game constructor class
 class Game:
-    def __init__(self):
+    def __init__(self):         #standard initialization, runs on creation of instance of class
         pygame.init()
+        pygame.display.set_caption(TITLE)
+        pygame.display.set_icon(APP_ICON)
         self.screen = pygame.display.set_mode(RES)
         self.clock = pygame.time.Clock()
         self.delta_time = 1
         self.new_game()
 
-    def pre_game(self):
+
+
+    def pre_game(self):         #pre game main menu for starting game and selecting options
         self.game_running = False
-        self.new_game()
+        #self.new_game()
         self.basicFont = pygame.font.SysFont(None, 48)
-        self.screen.fill(LIGHT_GREEN)
-        self.text = self.basicFont.render("WSAD to move leaf, space to launch!", True, WHITE)
+        self.screen.fill(DARK_PURPLE)
+        self.text = self.basicFont.render("WASD to move leaf, space to launch!", True, WHITE)
         self.text2 = self.basicFont.render("Get as far as you can!", True, WHITE)
         self.text3 = self.basicFont.render("Press ENTER to play!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
@@ -38,6 +42,7 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     self.run()
             pygame.display.flip()
+
 
 
     def new_game(self):
@@ -68,12 +73,13 @@ class Game:
             self.draw()
 
     
+
     def post_game(self):
         self.game_running = False
-        self.screen.fill(DARK_GREEN)
-        self.text = self.basicFont.render("You made it to round: ", True, WHITE)
-        self.text2 = self.basicFont.render("Number Goes Here", True, WHITE)
-        self.text3 = self.basicFont.render("Press SPACE to play!", True, WHITE)
+        self.screen.fill(DARK_RED)
+        self.text = self.basicFont.render("Your score was:", True, WHITE)
+        self.text2 = self.basicFont.render("Number of Score Goes Here", True, WHITE)
+        self.text3 = self.basicFont.render("Press SPACE to play again!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
         self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
         self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
@@ -89,6 +95,8 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.pre_game()
             pygame.display.flip()
+
+
 
 if __name__ == '__main__':
     game = Game()

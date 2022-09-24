@@ -10,6 +10,7 @@ class Player:
         self.speed = PLAYER_SPEED
         self.gravity = GRAVITY
         self.speed_x, self.speed_y = 0, 0
+        self.end_game_counter = 0
 
     def movement(self):
         self.speed_y += self.gravity
@@ -37,6 +38,9 @@ class Player:
                 self.speed_y -= LAUNCH_HEIGHT
         else:
             self.speed_x = self.speed_x * .99
+            self.end_game_counter += 0.1
+            if self.end_game_counter > 100:
+                self.game.post_game()
         
 
 
