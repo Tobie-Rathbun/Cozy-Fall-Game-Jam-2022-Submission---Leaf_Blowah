@@ -42,7 +42,8 @@ class Player:
             if self.end_game_counter > 100:
                 self.game.post_game()
         
-
+    def get_movement(self):
+        return(self.speed_x)
 
     def draw(self):
         pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)

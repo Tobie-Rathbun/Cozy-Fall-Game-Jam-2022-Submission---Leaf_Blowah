@@ -10,9 +10,14 @@ from player import *
 class Game:
     def __init__(self):         #standard initialization, runs on creation of instance of class
         pygame.init()
+        # window info
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(APP_ICON)
         self.screen = pygame.display.set_mode(RES)
+        # fonts
+        basicFont = pygame.font.SysFont(None, 48)
+        largeFont = pygame.font.SysFont(None, 76)
+        # 
         self.clock = pygame.time.Clock()
         self.delta_time = 1
         self.new_game()
@@ -55,9 +60,12 @@ class Game:
         pygame.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
+        self.player_speed_x = self.player.get_movement()
+        self.map.move_map(self.player_speed_x)
 
     def draw(self):
         self.screen.fill(DARK_GREEN)
+        self.map.draw()
         self.player.draw()
 
     def check_events(self):
