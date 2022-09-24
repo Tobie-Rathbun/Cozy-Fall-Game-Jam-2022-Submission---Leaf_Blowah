@@ -36,6 +36,12 @@ class Player:
                 #launch / boost
                 self.speed_x += LAUNCH_SPEED
                 self.speed_y -= LAUNCH_HEIGHT
+            if keys[pygame.K_5]:
+                print("I pressed K5")
+            if keys[pygame.K_4]:
+                #presses 4 mutes audio
+                pass
+
         else:
             self.speed_x = self.speed_x * .99
             self.end_game_counter += 0.1
