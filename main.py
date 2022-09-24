@@ -45,6 +45,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    self.new_game()
                     self.run()
             pygame.display.flip()
 
