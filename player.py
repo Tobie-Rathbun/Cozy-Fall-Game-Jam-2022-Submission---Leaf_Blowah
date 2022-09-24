@@ -26,7 +26,7 @@ class Player:
         self.x += self.speed_x
         
 
-        if self.y < BASELINE:
+        if self.y < BASELINE:       #if touching ground
             self.y += self.speed_y
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
@@ -76,6 +76,6 @@ class Player:
     def update(self):
         self.movement()
         self.anim_timer += 1
-        if self.anim_timer > 30:
-            self.leaf_list.rotate(-1)
+        if self.anim_timer > 30:      #controls animation speed
+            self.leaf_list.rotate(-1)   #animates next frame of leaf
             self.anim_timer = 0
