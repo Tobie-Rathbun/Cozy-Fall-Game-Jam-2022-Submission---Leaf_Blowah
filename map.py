@@ -6,7 +6,7 @@ def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
-img_dir = resource_path("img")
+map_dir = resource_path("img/map")
 
 
 class Map:
@@ -19,7 +19,7 @@ class Map:
     def get_map(self):
         self.map_tiles = []
         for tile in range(4):
-            self.tile = pygame.image.load(os.path.join(img_dir, "Path0{}.png".format(tile)))
+            self.tile = pygame.image.load(os.path.join(map_dir, "Path0{}.png".format(tile)))
             pygame.transform.scale(self.tile, (self.game.screen.get_width(), self.game.screen.get_height()))
             self.map_tiles.append(self.tile)
 
@@ -36,6 +36,8 @@ class Map:
 
 
     def update(self):
+        #is this updating on tobie?
+        #lmk
         pass
 
 
