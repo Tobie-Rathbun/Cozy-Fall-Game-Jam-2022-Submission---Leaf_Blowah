@@ -1,7 +1,14 @@
 from colors import *
 from settings import *
 import pygame as pygame
-import math
+from collections import deque
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
+leaf_dir = resource_path("img/leaf")
 
 class Player:
     def __init__(self, game):
@@ -11,6 +18,8 @@ class Player:
         self.gravity = GRAVITY
         self.speed_x, self.speed_y = 0, 0
         self.end_game_counter = 0
+        self.leaf_list = self.get_player()
+        self.anim_timer = 0
 
     def movement(self):
         self.speed_y += self.gravity
@@ -48,11 +57,25 @@ class Player:
             if self.end_game_counter > 100:
                 self.game.post_game()
         
+    def get_player(self):
+        self.leaf_tiles = deque()
+        for tile in range(4):
+            self.tile = pygame.image.load(os.path.join(leaf_dir, "Leaf0{}.png".format(tile)))
+            pygame.transform.scale(self.tile, (self.game.screen.get_width(), self.game.screen.get_height()))
+            self.leaf_tiles.append(self.tile)
+
+        return self.leaf_tiles
+
     def get_movement(self):
         return(self.speed_x)
 
     def draw(self):
-        pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
+        self.game.screen.blit(self.leaf_list[0], (self.x * 100, self.y * 100))
+        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
 
     def update(self):
         self.movement()
+        self.anim_timer += 1
+        if self.anim_timer > 30:
+            self.leaf_list.rotate(-1)
+            self.anim_timer = 0

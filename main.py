@@ -75,7 +75,8 @@ class Game:
                 sys.exit()
 
     def run(self):
-        while True:
+        self.game_running = True
+        while self.game_running:
             self.check_events()
             self.update()
             self.draw()
