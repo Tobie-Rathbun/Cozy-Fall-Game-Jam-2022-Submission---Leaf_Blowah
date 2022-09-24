@@ -20,6 +20,7 @@ class Player:
         self.end_game_counter = 0
         self.leaf_list = self.get_player()
         self.anim_timer = 0
+        self.in_air = 1
 
     def movement(self):
         self.speed_y += self.gravity
@@ -54,6 +55,7 @@ class Player:
         else:
             self.speed_x = self.speed_x * .99
             self.end_game_counter += 0.1
+            self.in_air = 0
             if self.end_game_counter > 100:
                 self.game.post_game()
         
@@ -76,6 +78,8 @@ class Player:
     def update(self):
         self.movement()
         self.anim_timer += 1
-        if self.anim_timer > 30:      #controls animation speed
-            self.leaf_list.rotate(-1)   #animates next frame of leaf
-            self.anim_timer = 0
+        if self.in_air == 1:
+            if self.anim_timer > 30:      #controls animation speed
+                self.leaf_list.rotate(-1)   #animates next frame of leaf
+                self.anim_timer = 0
+        
