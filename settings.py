@@ -1,4 +1,3 @@
-import math
 import pygame
 import sys, os
 # /// Settings for the Game ///
@@ -27,6 +26,7 @@ LAUNCH_SPEED = 0.001
 LAUNCH_HEIGHT = 0.0005
 
 BASELINE = HEIGHT * 7 / 8 / 100
+#print(BASELINE)     #debug
 PLAYERLINE = WIDTH / 8
 
 IDK = 420
