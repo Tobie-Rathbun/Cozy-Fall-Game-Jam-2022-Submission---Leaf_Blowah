@@ -73,10 +73,8 @@ class Enemy:
         
     def draw(self):
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
-=======
         self.bee_rect.update((self.x, self.y),(self.hit_w, self.hit_w))
         
     def draw(self):
         #pygame.draw.rect(self.game.screen, RED, self.bee_rect)
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x - self.hit_s, self.bee_rect.y - self.hit_s))
->>>>>>> efbb82a3fa49359fd79caeca35f195a149ff76ce
