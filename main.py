@@ -46,10 +46,18 @@ class Game:
         self.text4 = self.basicFont.render("Your highest score was: {}".format(self.prev_highest), True, WHITE)
         self.pregame = True
         while self.pregame:
-            self.screen.fill(DARK_PURPLE)
+            self.screen.fill(DARK_RED)
             self.textRect, self.textRect2, self.textRect3, self.textRect4 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect(), self.text4.get_rect()
             self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx, self.textRect4.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
-            self.textRect.centery, self.textRect2.centery, self.textRect3.centery, self.textRect4.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5, self.screen.get_rect().centery / 1.15
+            self.textRect.centery, self.textRect2.centery, self.textRect3.centery, self.textRect4.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5, self.screen.get_rect().centery
+            # self.textRect.inflate_ip(200, 50)
+            # self.textRect2.inflate_ip(200, 50)
+            # self.textRect3.inflate_ip(200, 50)
+            # self.textRect4.inflate_ip(200, 50)
+            pygame.draw.rect(self.screen, ORANGE, self.textRect)
+            pygame.draw.rect(self.screen, ORANGE, self.textRect2)
+            pygame.draw.rect(self.screen, FALL_YELLOW, self.textRect3)
+            pygame.draw.rect(self.screen, AUBURN_RED, self.textRect4)
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
@@ -136,7 +144,7 @@ class Game:
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
 
     def draw(self):
-        self.screen.fill(DARK_GREEN)
+        self.screen.fill(ORANGE)
         self.map.draw()
         self.player.draw()
         self.enemy.draw()
@@ -160,11 +168,14 @@ class Game:
         self.text2 = self.basicFont.render("Aerodynamics: 30", True, WHITE)
         self.text3 = self.basicFont.render("Wind Booster: 50", True, WHITE)
         while self.store:
-            self.screen.fill(DARK_PURPLE)
+            self.screen.fill(DARK_RED)
             self.text = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
             self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
             self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
             self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
+            pygame.draw.rect(self.screen, ORANGE, self.textRect)
+            pygame.draw.rect(self.screen, FALL_YELLOW, self.textRect2)
+            pygame.draw.rect(self.screen, FALL_YELLOW, self.textRect3)
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
@@ -202,7 +213,7 @@ class Game:
 
     def post_game(self, reason):
         self.game_running = False
-        self.screen.fill(DARK_RED)
+        self.screen.fill(AUBURN_RED)
 
         self.current_score = int(self.player.get_score())
         self.scores_this_session = []
@@ -220,12 +231,19 @@ class Game:
         self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
         self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
         self.postgame = True
+        
         while self.postgame:
+            pygame.draw.rect(self.screen, ORANGE, self.textRect)
+            pygame.draw.rect(self.screen, ORANGE, self.textRect2)
+            pygame.draw.rect(self.screen, FALL_YELLOW, self.textRect3)
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.pre_game()
                     self.post_game = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
