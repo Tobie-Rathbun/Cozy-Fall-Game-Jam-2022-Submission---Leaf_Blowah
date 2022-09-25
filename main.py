@@ -184,12 +184,10 @@ class Game:
                         if self.current_currency > 30:  #cost
                             self.player.upgrade()
                             self.current_currency -= 30
-                            pass
-                    if self.textRect2.collidepoint(event.pos):
+                    if self.textRect3.collidepoint(event.pos):
                         if self.current_currency > 50:
                             self.boost.upgrade()
                             self.current_currency -= 50
-                            pass
                     
             pygame.display.flip()
 
