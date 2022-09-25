@@ -78,6 +78,9 @@ class Game:
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
+                self.pause_game()
+
 
     def run(self):
         self.game_running = True
@@ -110,6 +113,27 @@ class Game:
                     self.pre_game()
             pygame.display.flip()
 
+    def pause_game(self):
+        self.game_running = not self.game_running
+        if self.game_running == False:
+            self.text = self.basicFont.render("PAUSED", True, WHITE)
+            self.text2 = self.basicFont.render("Press P to Unpause", True, WHITE)
+            self.textRect, self.textRect2 = self.text.get_rect(), self.text2.get_rect()
+            self.textRect.centerx, self.textRect2.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx
+            self.textRect.centery, self.textRect2.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2
+            self.pausegame = True
+            while self.pausegame:
+                self.screen.blit(self.text, self.textRect)
+                self.screen.blit(self.text2, self.textRect2)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                        self.pause_game()
+                pygame.display.flip()
+        else:
+            self.run()
 
 
 if __name__ == '__main__':
