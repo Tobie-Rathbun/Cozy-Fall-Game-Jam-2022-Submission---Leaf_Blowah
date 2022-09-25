@@ -13,14 +13,16 @@ class Game:
         # window info
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(APP_ICON)
-        self.screen = pygame.display.set_mode(RES)
+        self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
         # fonts
-        basicFont = pygame.font.SysFont(None, 48)
-        largeFont = pygame.font.SysFont(None, 76)
+        self.basicFont = pygame.font.SysFont(None, 48)
+        self.largeFont = pygame.font.SysFont(None, 76)
         # 
         self.clock = pygame.time.Clock()
         self.delta_time = 1
         self.new_game()
+        self.scaled = False
+        self.fullscreen = False
 
 
 
@@ -28,15 +30,16 @@ class Game:
         self.game_running = False
         #self.new_game()
         self.basicFont = pygame.font.SysFont(None, 48)
-        self.screen.fill(DARK_PURPLE)
         self.text = self.basicFont.render("WASD to move leaf, space to launch!", True, WHITE)
         self.text2 = self.basicFont.render("Get as far as you can!", True, WHITE)
         self.text3 = self.basicFont.render("Press ENTER to play!", True, WHITE)
-        self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
-        self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
-        self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
+       
         self.pregame = True
         while self.pregame:
+            self.screen.fill(DARK_PURPLE)
+            self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
+            self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
+            self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
@@ -44,6 +47,12 @@ class Game:
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                    self.fullscreen = not self.fullscreen
+                    if self.fullscreen:
+                        self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
+                    else:
+                        self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     self.new_game()
                     self.run()
@@ -78,6 +87,9 @@ class Game:
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
+                self.pause_game()
+
 
     def run(self):
         self.game_running = True
@@ -110,6 +122,27 @@ class Game:
                     self.pre_game()
             pygame.display.flip()
 
+    def pause_game(self):
+        self.game_running = not self.game_running
+        if self.game_running == False:
+            self.text = self.basicFont.render("PAUSED", True, WHITE)
+            self.text2 = self.basicFont.render("Press P to Unpause", True, WHITE)
+            self.textRect, self.textRect2 = self.text.get_rect(), self.text2.get_rect()
+            self.textRect.centerx, self.textRect2.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx
+            self.textRect.centery, self.textRect2.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2
+            self.pausegame = True
+            while self.pausegame:
+                self.screen.blit(self.text, self.textRect)
+                self.screen.blit(self.text2, self.textRect2)
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        pygame.quit()
+                        sys.exit()
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                        self.pause_game()
+                pygame.display.flip()
+        else:
+            self.run()
 
 
 if __name__ == '__main__':
