@@ -40,6 +40,7 @@ class Enemy:
         return(self.speed_x)
 
     def get_rect(self):
+        #make self.bee_rect smaller here using pygame.transform.scale()
         return(self.bee_rect)
 
     def new_enemy(self):
