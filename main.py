@@ -64,6 +64,10 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     self.new_game()
                     self.run()
+                    self.pregame = False
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    self.store_menu()
+                    self.pregame = False
             pygame.display.flip()
 
 
@@ -143,11 +147,53 @@ class Game:
 
     
 
+
+
     def store_menu(self):
-        self.game_running = False
-        self.screen.fill(DARK_GREEN)
-        self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
-        pass
+        self.store = True
+        
+        self.text2 = self.basicFont.render("Aerodynamics: 30", True, WHITE)
+        self.text3 = self.basicFont.render("Wind Booster: 50", True, WHITE)
+        while self.store:
+            self.screen.fill(DARK_PURPLE)
+            self.text = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
+            self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
+            self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
+            self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
+            self.screen.blit(self.text,self.textRect)
+            self.screen.blit(self.text2,self.textRect2)
+            self.screen.blit(self.text3,self.textRect3)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    self.pre_game()
+                    self.store = False
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                    self.fullscreen = not self.fullscreen
+                    if self.fullscreen:
+                        self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
+                    else:
+                        self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    self.pre_game()
+                    self.store = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.textRect2.collidepoint(event.pos):
+                        if self.current_currency > 30:  #cost
+                            self.player.upgrade()
+                            self.current_currency -= 30
+                            pass
+                    if self.textRect2.collidepoint(event.pos):
+                        if self.current_currency > 50:
+                            self.boost.upgrade()
+                            self.current_currency -= 50
+                            pass
+                    
+            pygame.display.flip()
+
+
 
 
 
@@ -164,27 +210,32 @@ class Game:
 
         self.text = self.basicFont.render("Your score was {} before {} killed you".format(str(self.current_score), str(reason)), True, WHITE)
         self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
-        self.text3 = self.basicFont.render("Press SPACE to play again!", True, WHITE)
+        self.text3 = self.basicFont.render("Press SPACE to play again or E to Shop!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
         self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
         self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
-        self.pregame = True
-        while self.pregame:
+        self.postgame = True
+        while self.postgame:
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.pre_game()
+                    self.post_game = False
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.new_game()
+                    self.run()
+                    self.post_game = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                     self.fullscreen = not self.fullscreen
                     if self.fullscreen:
                         self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
                     else:
                         self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    self.store_menu()
+                    self.post_game = False
             pygame.display.flip()
 
     def pause_game(self):

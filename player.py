@@ -25,6 +25,10 @@ class Player:
         self.launch_cooldown = 0
         self.wind_resistance = WIND_RESISTANCE
 
+    def upgrade(self):
+        self.speed = PLAYER_SPEED * 1.2
+        print("upgraded player")
+
     def movement(self):
         self.speed_y += self.gravity
         if self.speed_x > 0:
@@ -51,10 +55,10 @@ class Player:
             if keys[pygame.K_SPACE]:
                 #launch / boost
                 if self.launch_cooldown == 0:
-                    self.speed_x += LAUNCH_SPEED
-                    self.speed_y = 0
-                    self.speed_y -= LAUNCH_HEIGHT
-                    self.launch_cooldown = 50
+                    self.speed_x += LAUNCH_SPEED    #adds  right speed
+                    self.speed_y = 0                #removes downwards force
+                    self.speed_y -= LAUNCH_HEIGHT   #adds upwards force
+                    self.launch_cooldown = 50       #timer to launch again
             if keys[pygame.K_5]:
                 print("I pressed K5")
             if keys[pygame.K_4]:

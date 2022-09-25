@@ -32,7 +32,7 @@ class Enemy:
         self.bee_tiles = deque()
         for tile in range(4):
             self.tile = pygame.image.load(os.path.join(bee_dir, "Bee{}.png".format(tile)))
-            pygame.transform.scale(self.tile, (self.screen_w, self.screen_w))
+            pygame.transform.scale(self.tile, ((int(self.screen_w/16), int(self.screen_w/16))))
             self.bee_tiles.append(self.tile)
 
         return self.bee_tiles
@@ -45,7 +45,7 @@ class Enemy:
         return(self.bee_rect)
 
     def new_enemy(self):
-        self.speed_x, self.speed_y = ENEMY_SPEED, 0
+        self.speed_x, self.speed_y = -ENEMY_SPEED, 0
         self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
 
     def update(self):
@@ -60,7 +60,7 @@ class Enemy:
                 self.anim_timer = 0
 
         self.screen_w, self.bee_h = self.game.get_res()
-        self.bee_draw = pygame.transform.scale(self.bee_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
+        self.bee_draw = self.bee_list[0]
         self.bee_rect = self.bee_draw.get_rect()
         self.bee_rect.x, self.bee_rect.y = self.x, self.y
         if (self.scale_counter < 1):
@@ -69,8 +69,12 @@ class Enemy:
             self.scale_counter += 1
         
     def draw(self):
+<<<<<<< HEAD
         pygame.draw.rect(self.game.screen, RED, self.bee_rect)
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
         print("Bee box ", self.bee_rect)
         
         #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
+=======
+        self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
+>>>>>>> 73a68ca80d0391a2eb36235da3f1aad5bd483f41
