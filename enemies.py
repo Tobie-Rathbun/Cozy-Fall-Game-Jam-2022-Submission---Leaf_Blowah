@@ -23,6 +23,7 @@ class Enemy:
         self.bee_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
+        self.scale_counter = 0
 
     def movement(self):
         self.speed_y += self.gravity
@@ -63,8 +64,27 @@ class Enemy:
         self.screen_w, self.bee_h = self.game.get_res()
         self.bee_draw = self.bee_list[0]
         self.bee_rect = self.bee_draw.get_rect()
+
+        self.bee_rect.x, self.bee_rect.y = self.x, self.y
+        if (self.scale_counter < 1):
+            self.bee_rect.width = self.bee_rect.width * .1
+            self.bee_rect.height = self.bee_rect.height * .1
+            self.scale_counter += 1
+        
+    def draw(self):
+<<<<<<< HEAD
+        pygame.draw.rect(self.game.screen, RED, self.bee_rect)
+        self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
+        print("Bee box ", self.bee_rect)
+        
+        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
+=======
+        self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
+>>>>>>> 73a68ca80d0391a2eb36235da3f1aad5bd483f41
+=======
         self.bee_rect.update((self.x, self.y),(self.hit_w, self.hit_w))
         
     def draw(self):
         #pygame.draw.rect(self.game.screen, RED, self.bee_rect)
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x - self.hit_s, self.bee_rect.y - self.hit_s))
+>>>>>>> efbb82a3fa49359fd79caeca35f195a149ff76ce
