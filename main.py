@@ -28,6 +28,7 @@ class Game:
         self.new_game()
         self.scaled = False
         self.fullscreen = False
+
         self.current_currency = 0
         self.bee_death = "a bee"
         self.gravity_death = "gravity"
@@ -77,7 +78,7 @@ class Game:
         self.ingame_hud = HUD(self)
 
     def get_res(self):
-        self.res = (self.screen.get_width(), self.screen.get_height())
+        self.res = self.screen_w, self.screen_h = (self.screen.get_width(), self.screen.get_height())
         return self.res
 
     def check_events(self):
@@ -99,12 +100,16 @@ class Game:
         self.e_rect = self.enemy.get_rect()
         if self.p_rect.colliderect(self.e_rect):
             self.post_game(self.bee_death)
+        if self.e_rect.x < self.screen_w and self.e_rect.y > self.screen_h:
+            self.enemy.new_enemy()
 
     def check_boosts(self):
         self.p_rect = self.player.get_rect()
         self.b_rect = self.boost.get_rect()
         if self.p_rect.colliderect(self.b_rect):
             self.player.launch()
+            self.boost.new_boost()
+        if self.b_rect.x < self.screen_w and self.b_rect.y > self.screen_h:
             self.boost.new_boost()
             
 

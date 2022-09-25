@@ -1,6 +1,6 @@
 from colors import *
 from settings import *
-from random import *
+import random
 import pygame as pygame
 from collections import deque
 
@@ -15,10 +15,9 @@ class Boost:
     def __init__(self, game):
         self.game = game
         self.screen_w, self.screen_h = self.game.get_res()
-        self.x, self.y = self.screen_w, 3
-        self.speed = BOOST_SPEED
+        self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
         self.gravity = GRAVITY
-        self.speed_x, self.speed_y = -5, 0
+        self.speed_x, self.speed_y = -BOOST_SPEED, 0
         self.wind_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
@@ -44,8 +43,9 @@ class Boost:
         return(self.wind_rect)
 
     def new_boost(self):
-        self.x, self.y = self.screen_w, 3
-        self.speed_x, self.speed_y = -5, 0
+        self.speed_x, self.speed_y = -BOOST_SPEED, 0
+        self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
+        
 
     def update(self):
         self.screen_w, self.screen_h = self.game.get_res()
@@ -61,7 +61,7 @@ class Boost:
         self.screen_w, self.wind_h = self.game.get_res()
         self.wind_draw = pygame.transform.scale(self.wind_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
         self.wind_rect = self.wind_draw.get_rect()
-        self.wind_rect.x, self.wind_rect.y = self.x, self.y*100
+        self.wind_rect.x, self.wind_rect.y = self.x, self.y
         
     def draw(self):
         self.game.screen.blit(self.wind_draw, (self.wind_rect.x, self.wind_rect.y))

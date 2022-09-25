@@ -1,6 +1,6 @@
 from colors import *
 from settings import *
-from random import *
+import random
 import pygame as pygame
 from collections import deque
 
@@ -15,10 +15,9 @@ class Enemy:
     def __init__(self, game):
         self.game = game
         self.screen_w, self.screen_h = self.game.get_res()
-        self.x, self.y = self.screen_w, 0
-        self.speed = ENEMY_SPEED
+        self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
         self.gravity = GRAVITY
-        self.speed_x, self.speed_y = -5, 0
+        self.speed_x, self.speed_y = -ENEMY_SPEED, 0
         self.bee_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
@@ -43,6 +42,9 @@ class Enemy:
     def get_rect(self):
         return(self.bee_rect)
 
+    def new_enemy(self):
+        self.speed_x, self.speed_y = ENEMY_SPEED, 0
+        self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
 
     def update(self):
         self.screen_w, self.screen_h = self.game.get_res()
@@ -58,7 +60,7 @@ class Enemy:
         self.screen_w, self.bee_h = self.game.get_res()
         self.bee_draw = pygame.transform.scale(self.bee_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
         self.bee_rect = self.bee_draw.get_rect()
-        self.bee_rect.x, self.bee_rect.y = self.x, self.y*100
+        self.bee_rect.x, self.bee_rect.y = self.x, self.y
         
     def draw(self):
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
