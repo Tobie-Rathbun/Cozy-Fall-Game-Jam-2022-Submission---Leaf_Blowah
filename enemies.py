@@ -72,15 +72,7 @@ class Enemy:
             self.scale_counter += 1
         
     def draw(self):
-<<<<<<< HEAD
-        pygame.draw.rect(self.game.screen, RED, self.bee_rect)
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
-        print("Bee box ", self.bee_rect)
-        
-        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
-=======
-        self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
->>>>>>> 73a68ca80d0391a2eb36235da3f1aad5bd483f41
 =======
         self.bee_rect.update((self.x, self.y),(self.hit_w, self.hit_w))
         
