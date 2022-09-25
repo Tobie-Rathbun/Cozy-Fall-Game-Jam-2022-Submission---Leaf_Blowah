@@ -32,7 +32,7 @@ class Player:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
                 #move up
-                self.speed_y -= PLAYER_SPEED
+                self.speed_y -= PLAYER_SPEED/4
             if keys[pygame.K_s]:
                 #move down
                 self.speed_y += PLAYER_SPEED
