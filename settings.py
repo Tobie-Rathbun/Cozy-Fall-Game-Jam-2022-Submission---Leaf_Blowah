@@ -17,7 +17,7 @@ APP_ICON = pygame.image.load(os.path.join(icon_dir, "Fall_Leaf.png"))  #loads im
 
 #screen variables
 RES = WIDTH, HEIGHT = 1600, 900
-FPS = 0
+FPS = 60
 
 PLAYER_POS = 1.5, 5
 PLAYER_SPEED = 0.00004
