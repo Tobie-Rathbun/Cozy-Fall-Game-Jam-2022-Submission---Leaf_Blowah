@@ -11,8 +11,8 @@ class HUD:
 
     def update(self):
         self.display_caption = int(self.game.player.speed_x * 100)
-        self.label_text = 'Moving {} Speed'.format(self.display_caption)
-        self.label_rect = pygame.Rect(self.screen_w/2, self.screen_h/2, 400, 40)
+        self.label_text = 'Moving {} M/S'.format(self.display_caption)
+        self.label_rect = pygame.Rect(self.screen_w - 300, 25, 400, 40)
         self.label_surface = self.basicFont.render(self.label_text, True, FALL_YELLOW)
         self.label_rect.w = self.label_surface.get_width()+10
         
