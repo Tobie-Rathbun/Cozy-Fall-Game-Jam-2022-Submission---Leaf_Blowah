@@ -5,7 +5,11 @@ from colors import *
 from settings import *
 from map import *
 from player import *
-from enemy import *
+from enemies import *
+from boosts import *
+from ingame_hud import *
+
+
 
 #game constructor class
 class Game:
@@ -69,16 +73,12 @@ class Game:
         self.map = Map(self)
         self.player = Player(self)
         self.enemy = Enemy(self)
+        self.boost = Boost(self)
+        self.ingame_hud = HUD(self)
 
     def get_res(self):
         self.res = (self.screen.get_width(), self.screen.get_height())
         return self.res
-
-    def draw(self):
-        self.screen.fill(DARK_GREEN)
-        self.map.draw()
-        self.player.draw()
-        self.enemy.draw()
 
     def check_events(self):
         for event in pygame.event.get():
@@ -100,15 +100,34 @@ class Game:
         if self.p_rect.colliderect(self.e_rect):
             self.post_game(self.bee_death)
 
+    def check_boosts(self):
+        self.p_rect = self.player.get_rect()
+        self.b_rect = self.boost.get_rect()
+        if self.p_rect.colliderect(self.b_rect):
+            self.player.launch()
+            self.boost.new_boost()
+            
+
     def update(self):
         self.player.update()
         self.player_speed_x = self.player.get_movement()
         self.enemy.update()
+        self.boost.update()
         self.check_collisions()
+        self.check_boosts()
+        self.ingame_hud.update()
         self.map.update(self.player_speed_x)
         pygame.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
+
+    def draw(self):
+        self.screen.fill(DARK_GREEN)
+        self.map.draw()
+        self.player.draw()
+        self.enemy.draw()
+        self.boost.draw()
+        self.ingame_hud.draw()
 
     def run(self):
         self.game_running = True

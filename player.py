@@ -22,10 +22,14 @@ class Player:
         self.leaf_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
+        self.launch_cooldown = 0
+        self.wind_resistance = WIND_RESISTANCE
 
     def movement(self):
         self.speed_y += self.gravity
+        self.speed_x -= WIND_RESISTANCE
         self.x += self.speed_x
+        
         
 
         if self.y < BASELINE:       #if touching ground
@@ -45,8 +49,10 @@ class Player:
                 self.speed_x += PLAYER_SPEED
             if keys[pygame.K_SPACE]:
                 #launch / boost
-                self.speed_x += LAUNCH_SPEED
-                self.speed_y -= LAUNCH_HEIGHT
+                if self.launch_cooldown == 0:
+                    self.speed_x += LAUNCH_SPEED
+                    self.speed_y -= LAUNCH_HEIGHT
+                    self.launch_cooldown = 50
             if keys[pygame.K_5]:
                 print("I pressed K5")
             if keys[pygame.K_4]:
@@ -60,6 +66,11 @@ class Player:
             if self.end_game_counter > 10:
                 self.game.post_game(self.game.gravity_death)
         
+    def launch(self):
+        #launch / boost
+        self.speed_x += LAUNCH_SPEED
+        self.speed_y -= LAUNCH_HEIGHT
+
     def get_art(self):
         self.leaf_tiles = deque()
         for tile in range(4):
@@ -91,6 +102,9 @@ class Player:
             if self.anim_timer > 10:      #controls animation speed
                 self.leaf_list.rotate(-1)   #animates next frame of leaf
                 self.anim_timer = 0
+
+        if self.launch_cooldown > 0:
+            self.launch_cooldown -= 1
     
     def draw(self):
         self.game.screen.blit(self.leaf_draw, (self.leaf_rect.x, self.leaf_rect.y))

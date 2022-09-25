@@ -9,17 +9,17 @@ def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
-bee_dir = resource_path("img/bee")
+wind_dir = resource_path("img/wind")
 
-class Enemy:
+class Boost:
     def __init__(self, game):
         self.game = game
         self.screen_w, self.screen_h = self.game.get_res()
-        self.x, self.y = self.screen_w, 0
-        self.speed = ENEMY_SPEED
+        self.x, self.y = self.screen_w, 3
+        self.speed = BOOST_SPEED
         self.gravity = GRAVITY
         self.speed_x, self.speed_y = -5, 0
-        self.bee_list = self.get_art()
+        self.wind_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
 
@@ -29,24 +29,23 @@ class Enemy:
         self.x += self.speed_x
         
     def get_art(self):
-        self.bee_tiles = deque()
+        self.wind_tiles = deque()
         for tile in range(4):
-            self.tile = pygame.image.load(os.path.join(bee_dir, "Bee{}.png".format(tile)))
+            self.tile = pygame.image.load(os.path.join(wind_dir, "wind-0{}.png".format(tile)))
             pygame.transform.scale(self.tile, (self.screen_w, self.screen_w))
-            self.bee_tiles.append(self.tile)
+            self.wind_tiles.append(self.tile)
 
-        return self.bee_tiles
+        return self.wind_tiles
 
     def get_movement(self):
         return(self.speed_x)
 
-    def draw(self):
-        self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
-        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
-
     def get_rect(self):
-        return(self.bee_rect)
+        return(self.wind_rect)
 
+    def new_boost(self):
+        self.x, self.y = self.screen_w, 3
+        self.speed_x, self.speed_y = -5, 0
 
     def update(self):
         self.screen_w, self.screen_h = self.game.get_res()
@@ -56,11 +55,14 @@ class Enemy:
         self.anim_timer += 1
         if self.in_air == 1:
             if self.anim_timer > 10:      #controls animation speed
-                self.bee_list.rotate(-1)   #animates next frame of bee
+                self.wind_list.rotate(-1)   #animates next frame of wind
                 self.anim_timer = 0
 
-        self.screen_w, self.bee_h = self.game.get_res()
-        self.bee_draw = pygame.transform.scale(self.bee_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
-        self.bee_rect = self.bee_draw.get_rect()
-        self.bee_rect.x, self.bee_rect.y = self.x, self.y*100
+        self.screen_w, self.wind_h = self.game.get_res()
+        self.wind_draw = pygame.transform.scale(self.wind_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
+        self.wind_rect = self.wind_draw.get_rect()
+        self.wind_rect.x, self.wind_rect.y = self.x, self.y*100
         
+    def draw(self):
+        self.game.screen.blit(self.wind_draw, (self.wind_rect.x, self.wind_rect.y))
+        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
