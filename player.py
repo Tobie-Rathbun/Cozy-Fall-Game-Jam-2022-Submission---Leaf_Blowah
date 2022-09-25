@@ -29,10 +29,8 @@ class Player:
         self.speed_y += self.gravity
         self.speed_x -= WIND_RESISTANCE
         self.x += self.speed_x
-        
-        
 
-        if self.y < BASELINE:       #if touching ground
+        if self.y < BASELINE:       #if not touching ground
             self.y += self.speed_y
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
@@ -51,6 +49,7 @@ class Player:
                 #launch / boost
                 if self.launch_cooldown == 0:
                     self.speed_x += LAUNCH_SPEED
+                    self.speed_y = 0
                     self.speed_y -= LAUNCH_HEIGHT
                     self.launch_cooldown = 50
             if keys[pygame.K_5]:
@@ -59,11 +58,11 @@ class Player:
                 #presses 4 mutes audio
                 pass
 
-        else:
-            self.speed_x = self.speed_x * .99
+        else:   #if touching ground
+            self.speed_x = self.speed_x * .99   #slow down
             self.end_game_counter += 1
             self.in_air = 0
-            if self.end_game_counter > 10:
+            if self.end_game_counter > 100:
                 self.game.post_game(self.game.gravity_death)
         
     def launch(self):
@@ -94,7 +93,7 @@ class Player:
         self.screen_w, self.leaf_h = self.game.get_res()
         self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
         self.leaf_rect = self.leaf_draw.get_rect()
-        self.leaf_rect.x, self.leaf_rect.y = PLAYERLINE, self.y * 100
+        self.leaf_rect.x, self.leaf_rect.y = PLAYERLINE, self.y
 
         self.movement()
         self.anim_timer += 1

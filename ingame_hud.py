@@ -10,7 +10,7 @@ class HUD:
         pass
 
     def update(self):
-        self.display_caption = self.game.player.speed_x
+        self.display_caption = int(self.game.player.speed_x * 100)
         self.label_text = 'Moving {} Speed'.format(self.display_caption)
         self.label_rect = pygame.Rect(self.screen_w/2, self.screen_h/2, 400, 40)
         self.label_surface = self.basicFont.render(self.label_text, True, FALL_YELLOW)
