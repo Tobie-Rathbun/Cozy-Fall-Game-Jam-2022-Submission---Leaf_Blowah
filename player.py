@@ -13,6 +13,7 @@ leaf_dir = resource_path("img/leaf")
 class Player:
     def __init__(self, game):
         self.game = game
+        self.screen_w, self.screen_h = self.game.get_res()
         self.x, self.y = PLAYER_POS
         self.speed = PLAYER_SPEED
         self.gravity = GRAVITY
@@ -57,13 +58,13 @@ class Player:
             self.end_game_counter += 1
             self.in_air = 0
             if self.end_game_counter > 10:
-                self.game.post_game()
+                self.game.post_game(self.game.gravity_death)
         
     def get_art(self):
         self.leaf_tiles = deque()
         for tile in range(4):
             self.tile = pygame.image.load(os.path.join(leaf_dir, "Leaf0{}.png".format(tile)))
-            pygame.transform.scale(self.tile, (self.game.screen.get_width(), self.game.screen.get_height()))
+            pygame.transform.scale(self.tile, (self.screen_w, self.screen_w))
             self.leaf_tiles.append(self.tile)
 
         return self.leaf_tiles
@@ -71,20 +72,26 @@ class Player:
     def get_movement(self):
         return(self.speed_x)
 
-    def draw(self):
-        self.screen_w, self.leaf_h = self.game.get_res()
-        self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
-        self.game.screen.blit(self.leaf_draw, (PLAYERLINE, self.y * 100))
-        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
-
     def get_score(self):
         return(self.x)
 
+    def get_rect(self):
+        return(self.leaf_rect)
+
     def update(self):
+        self.screen_w, self.screen_h = self.game.get_res()
+        self.screen_w, self.leaf_h = self.game.get_res()
+        self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
+        self.leaf_rect = self.leaf_draw.get_rect()
+        self.leaf_rect.x, self.leaf_rect.y = PLAYERLINE, self.y * 100
+
         self.movement()
         self.anim_timer += 1
         if self.in_air == 1:
             if self.anim_timer > 10:      #controls animation speed
                 self.leaf_list.rotate(-1)   #animates next frame of leaf
                 self.anim_timer = 0
-        
+    
+    def draw(self):
+        self.game.screen.blit(self.leaf_draw, (self.leaf_rect.x, self.leaf_rect.y))
+        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
