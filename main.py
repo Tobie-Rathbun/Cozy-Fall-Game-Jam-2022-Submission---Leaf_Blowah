@@ -163,7 +163,10 @@ class Game:
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     self.pre_game()
                     self.store = False
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
@@ -175,6 +178,18 @@ class Game:
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                     self.pre_game()
                     self.store = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.textRect2.collidepoint(event.pos):
+                        if self.current_currency > 30:  #cost
+                            #aerodynamics upgrade
+                            self.current_currency -= 30
+                            pass
+                    if self.textRect2.collidepoint(event.pos):
+                        if self.current_currency > 50:
+                            #wind booster upgrade
+                            self.current_currency -= 50
+                            pass
+                    
             pygame.display.flip()
 
 

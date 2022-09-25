@@ -44,7 +44,7 @@ class Enemy:
         return(self.bee_rect)
 
     def new_enemy(self):
-        self.speed_x, self.speed_y = ENEMY_SPEED, 0
+        self.speed_x, self.speed_y = -ENEMY_SPEED, 0
         self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
 
     def update(self):
