@@ -25,7 +25,8 @@ class Game:
         self.scaled = False
         self.fullscreen = False
         self.current_currency = 0
-
+        self.bee_death = "a bee"
+        self.gravity_death = "gravity"
 
 
     def pre_game(self):         #pre game main menu for starting game and selecting options
@@ -73,15 +74,6 @@ class Game:
         self.res = (self.screen.get_width(), self.screen.get_height())
         return self.res
 
-    def update(self):
-        self.player.update()
-        self.player_speed_x = self.player.get_movement()
-        self.enemy.update()
-        self.map.update(self.player_speed_x)
-        pygame.display.flip()
-        self.delta_time = self.clock.tick(FPS)
-        pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
-
     def draw(self):
         self.screen.fill(DARK_GREEN)
         self.map.draw()
@@ -102,6 +94,22 @@ class Game:
             elif event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
                 self.pause_game()
 
+    def check_collisions(self):
+        self.p_rect = self.player.get_rect()
+        self.e_rect = self.enemy.get_rect()
+        if self.p_rect.colliderect(self.e_rect):
+            self.post_game(self.bee_death)
+
+    def update(self):
+        self.player.update()
+        self.player_speed_x = self.player.get_movement()
+        self.enemy.update()
+        self.check_collisions()
+        self.map.update(self.player_speed_x)
+        pygame.display.flip()
+        self.delta_time = self.clock.tick(FPS)
+        pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
+
     def run(self):
         self.game_running = True
         while self.game_running:
@@ -113,7 +121,7 @@ class Game:
 
 
 
-    def post_game(self):
+    def post_game(self, reason):
         self.game_running = False
         self.screen.fill(DARK_RED)
 
@@ -124,7 +132,7 @@ class Game:
         self.current_currency += self.current_score
         print('currency: ', self.current_currency)
 
-        self.text = self.basicFont.render("Your score was: {}".format(str(self.current_score)), True, WHITE)
+        self.text = self.basicFont.render("Your score was {} before {} killed you".format(str(self.current_score), str(reason)), True, WHITE)
         self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
         self.text3 = self.basicFont.render("Press SPACE to play again!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
