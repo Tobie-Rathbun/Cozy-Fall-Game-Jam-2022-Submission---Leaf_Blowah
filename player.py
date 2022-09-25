@@ -72,8 +72,13 @@ class Player:
         return(self.speed_x)
 
     def draw(self):
-        self.game.screen.blit(self.leaf_list[0], (PLAYERLINE, self.y * 100))
+        self.leaf_w, self.leaf_h = self.game.get_res()
+        self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.leaf_w/16), int(self.leaf_w/16)))
+        self.game.screen.blit(self.leaf_draw, (PLAYERLINE, self.y * 100))
         #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
+
+    def get_score(self):
+        return(self.x)
 
     def update(self):
         self.movement()

@@ -103,8 +103,11 @@ class Game:
     def post_game(self):
         self.game_running = False
         self.screen.fill(DARK_RED)
+
+        self.current_score = int(self.player.get_score())
+
         self.text = self.basicFont.render("Your score was:", True, WHITE)
-        self.text2 = self.basicFont.render("Number of Score Goes Here", True, WHITE)
+        self.text2 = self.basicFont.render(str(self.current_score), True, WHITE)
         self.text3 = self.basicFont.render("Press SPACE to play again!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
         self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
