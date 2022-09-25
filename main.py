@@ -5,6 +5,7 @@ from colors import *
 from settings import *
 from map import *
 from player import *
+from enemy import *
 
 #game constructor class
 class Game:
@@ -24,6 +25,7 @@ class Game:
         self.scaled = False
         self.fullscreen = False
         self.current_currency = 0
+
 
 
     def pre_game(self):         #pre game main menu for starting game and selecting options
@@ -60,9 +62,12 @@ class Game:
 
 
 
+
+
     def new_game(self):
         self.map = Map(self)
         self.player = Player(self)
+        self.enemy = Enemy(self)
 
     def get_res(self):
         self.res = (self.screen.get_width(), self.screen.get_height())
@@ -71,17 +76,17 @@ class Game:
     def update(self):
         self.player.update()
         self.player_speed_x = self.player.get_movement()
+        self.enemy.update()
         self.map.update(self.player_speed_x)
         pygame.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
-        
-        
 
     def draw(self):
         self.screen.fill(DARK_GREEN)
         self.map.draw()
         self.player.draw()
+        self.enemy.draw()
 
     def check_events(self):
         for event in pygame.event.get():
@@ -97,7 +102,6 @@ class Game:
             elif event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
                 self.pause_game()
 
-
     def run(self):
         self.game_running = True
         while self.game_running:
@@ -106,6 +110,8 @@ class Game:
             self.draw()
 
     
+
+
 
     def post_game(self):
         self.game_running = False
@@ -158,6 +164,8 @@ class Game:
                 pygame.display.flip()
         else:
             self.run()
+
+
 
 
 if __name__ == '__main__':

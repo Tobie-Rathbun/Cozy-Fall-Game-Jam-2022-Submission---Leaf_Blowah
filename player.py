@@ -18,7 +18,7 @@ class Player:
         self.gravity = GRAVITY
         self.speed_x, self.speed_y = 0, 0
         self.end_game_counter = 0
-        self.leaf_list = self.get_player()
+        self.leaf_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
 
@@ -59,7 +59,7 @@ class Player:
             if self.end_game_counter > 10:
                 self.game.post_game()
         
-    def get_player(self):
+    def get_art(self):
         self.leaf_tiles = deque()
         for tile in range(4):
             self.tile = pygame.image.load(os.path.join(leaf_dir, "Leaf0{}.png".format(tile)))
@@ -72,8 +72,8 @@ class Player:
         return(self.speed_x)
 
     def draw(self):
-        self.leaf_w, self.leaf_h = self.game.get_res()
-        self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.leaf_w/16), int(self.leaf_w/16)))
+        self.screen_w, self.leaf_h = self.game.get_res()
+        self.leaf_draw = pygame.transform.scale(self.leaf_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
         self.game.screen.blit(self.leaf_draw, (PLAYERLINE, self.y * 100))
         #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
 
