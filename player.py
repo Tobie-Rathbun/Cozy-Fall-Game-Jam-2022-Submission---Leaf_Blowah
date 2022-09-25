@@ -27,7 +27,10 @@ class Player:
 
     def movement(self):
         self.speed_y += self.gravity
-        self.speed_x -= WIND_RESISTANCE
+        if self.speed_x > 0:
+            self.speed_x -= WIND_RESISTANCE
+        else:
+            self.speed_x = 0
         self.x += self.speed_x
 
         if self.y < BASELINE:       #if not touching ground
@@ -59,11 +62,12 @@ class Player:
                 pass
 
         else:   #if touching ground
-            self.speed_x = self.speed_x * .99   #slow down
-            self.end_game_counter += 1
+            self.speed_x = self.speed_x * .95   #slow down
             self.in_air = 0
-            if self.end_game_counter > 100:
-                self.game.post_game(self.game.gravity_death)
+            if self.speed_x == 0:
+                self.end_game_counter += 1
+                if self.end_game_counter > 100:
+                    self.game.post_game(self.game.gravity_death)
         
     def launch(self):
         #launch / boost
