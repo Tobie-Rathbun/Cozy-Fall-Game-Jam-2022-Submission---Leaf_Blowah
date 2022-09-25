@@ -22,7 +22,7 @@ class Map:
         self.map_tiles = deque()
         for tile in range(4):
             self.tile = pygame.image.load(os.path.join(map_dir, "Path0{}.png".format(tile)))
-            pygame.transform.scale(self.tile, (self.game.screen.get_width(), self.game.screen.get_height()))
+            self.tile = pygame.transform.scale(self.tile, self.game.get_res())
             self.map_tiles.append(self.tile)
 
         #print(self.map_tiles)  #debug
@@ -33,7 +33,8 @@ class Map:
 
     def move_map(self, speed_x): # , speed_x
         self.speed_x = speed_x
-        self.map_pos_x -= self.speed_x
+        self.map_pos_x -= int(self.speed_x * 500)
+        
         pass
 
 
