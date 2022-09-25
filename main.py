@@ -33,6 +33,8 @@ class Game:
         self.bee_death = "a bee"
         self.gravity_death = "gravity"
 
+        self.prev_highest = 0
+
 
     def pre_game(self):         #pre game main menu for starting game and selecting options
         self.game_running = False
@@ -41,7 +43,7 @@ class Game:
         self.text = self.basicFont.render("WASD to move leaf, space to launch!", True, WHITE)
         self.text2 = self.basicFont.render("Get as far as you can!", True, WHITE)
         self.text3 = self.basicFont.render("Press ENTER to play!", True, WHITE)
-        self.text4 = self.basicFont.render("Your highest score was: ", True, WHITE)
+        self.text4 = self.basicFont.render("Your highest score was: {}".format(self.prev_highest), True, WHITE)
         self.pregame = True
         while self.pregame:
             self.screen.fill(DARK_PURPLE)
@@ -88,9 +90,11 @@ class Game:
 
     def check_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.pre_game()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
                     self.fullscreen = not self.fullscreen
                     if self.fullscreen:
@@ -206,6 +210,8 @@ class Game:
 
         self.current_currency += self.current_score
         print('currency: ', self.current_currency)
+        if self.current_score > self.prev_highest:
+            self.prev_highest = self.current_score
 
         self.text = self.basicFont.render("Your score was {} before {} killed you".format(str(self.current_score), str(reason)), True, WHITE)
         self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
