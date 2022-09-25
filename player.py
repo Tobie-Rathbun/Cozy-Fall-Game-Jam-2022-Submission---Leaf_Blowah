@@ -32,7 +32,7 @@ class Player:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_w]:
                 #move up
-                self.speed_y -= PLAYER_SPEED
+                self.speed_y -= PLAYER_SPEED/4
             if keys[pygame.K_s]:
                 #move down
                 self.speed_y += PLAYER_SPEED
@@ -54,9 +54,9 @@ class Player:
 
         else:
             self.speed_x = self.speed_x * .99
-            self.end_game_counter += 0.1
+            self.end_game_counter += 1
             self.in_air = 0
-            if self.end_game_counter > 100:
+            if self.end_game_counter > 10:
                 self.game.post_game()
         
     def get_player(self):
