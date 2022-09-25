@@ -64,7 +64,7 @@ class Enemy:
         self.screen_w, self.bee_h = self.game.get_res()
         self.bee_draw = self.bee_list[0]
         self.bee_rect = self.bee_draw.get_rect()
-<<<<<<< HEAD
+
         self.bee_rect.x, self.bee_rect.y = self.x, self.y
         if (self.scale_counter < 1):
             self.bee_rect.width = self.bee_rect.width * .1
