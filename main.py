@@ -41,16 +41,17 @@ class Game:
         self.text = self.basicFont.render("WASD to move leaf, space to launch!", True, WHITE)
         self.text2 = self.basicFont.render("Get as far as you can!", True, WHITE)
         self.text3 = self.basicFont.render("Press ENTER to play!", True, WHITE)
-       
+        self.text4 = self.basicFont.render("Your highest score was: ", True, WHITE)
         self.pregame = True
         while self.pregame:
             self.screen.fill(DARK_PURPLE)
-            self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
-            self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
-            self.textRect.centery, self.textRect2.centery, self.textRect3.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5 
+            self.textRect, self.textRect2, self.textRect3, self.textRect4 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect(), self.text4.get_rect()
+            self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx, self.textRect4.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
+            self.textRect.centery, self.textRect2.centery, self.textRect3.centery, self.textRect4.centery = self.screen.get_rect().centery / 3, self.screen.get_rect().centery / 2, self.screen.get_rect().centery / 1.5, self.screen.get_rect().centery / 1.15
             self.screen.blit(self.text,self.textRect)
             self.screen.blit(self.text2,self.textRect2)
             self.screen.blit(self.text3,self.textRect3)
+            self.screen.blit(self.text4,self.textRect4)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     pygame.quit()
