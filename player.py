@@ -72,7 +72,7 @@ class Player:
         return(self.speed_x)
 
     def draw(self):
-        self.game.screen.blit(self.leaf_list[0], (self.x * 100, self.y * 100))
+        self.game.screen.blit(self.leaf_list[0], (PLAYERLINE, self.y * 100))
         #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
 
     def update(self):
