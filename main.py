@@ -143,6 +143,12 @@ class Game:
 
     
 
+    def store_menu(self):
+        self.game_running = False
+        self.screen.fill(DARK_GREEN)
+        self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
+        pass
+
 
 
     def post_game(self, reason):
@@ -173,6 +179,12 @@ class Game:
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     self.pre_game()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                    self.fullscreen = not self.fullscreen
+                    if self.fullscreen:
+                        self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
+                    else:
+                        self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
             pygame.display.flip()
 
     def pause_game(self):
@@ -193,6 +205,12 @@ class Game:
                         sys.exit()
                     elif event.type == pygame.KEYDOWN and event.key == pygame.K_p:
                         self.pause_game()
+                    elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                        self.fullscreen = not self.fullscreen
+                        if self.fullscreen:
+                            self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
+                        else:
+                            self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
                 pygame.display.flip()
         else:
             self.run()
