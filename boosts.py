@@ -31,7 +31,7 @@ class Boost:
         self.wind_tiles = deque()
         for tile in range(4):
             self.tile = pygame.image.load(os.path.join(wind_dir, "wind-0{}.png".format(tile)))
-            pygame.transform.scale(self.tile, (self.screen_w, self.screen_w))
+            pygame.transform.scale(self.tile, (int(self.screen_w/16), int(self.screen_w/16)))
             self.wind_tiles.append(self.tile)
 
         return self.wind_tiles
@@ -59,10 +59,9 @@ class Boost:
                 self.anim_timer = 0
 
         self.screen_w, self.wind_h = self.game.get_res()
-        self.wind_draw = pygame.transform.scale(self.wind_list[0], (int(self.screen_w/16), int(self.screen_w/16)))
+        self.wind_draw = self.wind_list[0]
         self.wind_rect = self.wind_draw.get_rect()
         self.wind_rect.x, self.wind_rect.y = self.x, self.y
         
     def draw(self):
         self.game.screen.blit(self.wind_draw, (self.wind_rect.x, self.wind_rect.y))
-        #pygame.draw.circle(self.game.screen, ORANGE, (self.x * 100, self.y * 100), 15)
