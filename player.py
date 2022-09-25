@@ -54,9 +54,9 @@ class Player:
 
         else:
             self.speed_x = self.speed_x * .99
-            self.end_game_counter += 0.1
+            self.end_game_counter += 1
             self.in_air = 0
-            if self.end_game_counter > 100:
+            if self.end_game_counter > 10:
                 self.game.post_game()
         
     def get_player(self):
