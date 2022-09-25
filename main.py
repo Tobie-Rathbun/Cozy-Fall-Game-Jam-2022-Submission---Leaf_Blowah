@@ -55,6 +55,10 @@ class Game:
         self.map = Map(self)
         self.player = Player(self)
 
+    def get_res(self):
+        self.res = (self.screen.get_width(), self.screen.get_height())
+        return self.res
+
     def update(self):
         self.player.update()
         self.map.update()
