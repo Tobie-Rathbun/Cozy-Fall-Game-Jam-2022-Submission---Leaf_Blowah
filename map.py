@@ -44,18 +44,19 @@ class Map:
         self.res_w, self.res_h = self.res = self.game.get_res()
         if self.map_pos_x < -self.res_w*4: #4 tiles have passed screen
             self.map_pos_x = 0
-            print("reset run")
+            #print("reset run") #debug
         if self.map_pos_x < -self.res_w: #1 tile has passed screen
             self.piece_A_cor = (self.map_pos_x + self.res_w*4, self.map_pos_y)
-            print("tile has been passed")
+            self.piece_D_cor = (self.map_pos_x + self.res_w*3, self.map_pos_y)
+            #print("tile has been passed") #debug
         else:
             self.piece_A_cor = (self.map_pos_x, self.map_pos_y)
-            print("standard")
+            self.piece_D_cor = (self.map_pos_x - self.res_w, self.map_pos_y)
+            #print("standard") #debug
         
         
         self.piece_B_cor = (self.map_pos_x + self.res_w, self.map_pos_y)
         self.piece_C_cor = (self.map_pos_x + self.res_w*2, self.map_pos_y)
-        self.piece_D_cor = (self.map_pos_x + self.res_w*3, self.map_pos_y)
         pass
 
 
