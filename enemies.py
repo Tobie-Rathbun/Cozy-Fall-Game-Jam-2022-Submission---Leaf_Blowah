@@ -16,6 +16,8 @@ class Enemy:
         self.game = game
         self.screen_w, self.screen_h = self.game.get_res()
         self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
+        self.hit_w = self.screen_w / 24
+        self.hit_s = self.screen_w / 100
         self.gravity = GRAVITY
         self.speed_x, self.speed_y = -ENEMY_SPEED, 0
         self.bee_list = self.get_art()
@@ -62,6 +64,7 @@ class Enemy:
         self.screen_w, self.bee_h = self.game.get_res()
         self.bee_draw = self.bee_list[0]
         self.bee_rect = self.bee_draw.get_rect()
+<<<<<<< HEAD
         self.bee_rect.x, self.bee_rect.y = self.x, self.y
         if (self.scale_counter < 1):
             self.bee_rect.width = self.bee_rect.width * .1
@@ -78,3 +81,10 @@ class Enemy:
 =======
         self.game.screen.blit(self.bee_draw, (self.bee_rect.x, self.bee_rect.y))
 >>>>>>> 73a68ca80d0391a2eb36235da3f1aad5bd483f41
+=======
+        self.bee_rect.update((self.x, self.y),(self.hit_w, self.hit_w))
+        
+    def draw(self):
+        #pygame.draw.rect(self.game.screen, RED, self.bee_rect)
+        self.game.screen.blit(self.bee_draw, (self.bee_rect.x - self.hit_s, self.bee_rect.y - self.hit_s))
+>>>>>>> efbb82a3fa49359fd79caeca35f195a149ff76ce
