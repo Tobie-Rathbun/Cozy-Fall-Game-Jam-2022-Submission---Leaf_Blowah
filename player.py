@@ -79,7 +79,7 @@ class Player:
         self.movement()
         self.anim_timer += 1
         if self.in_air == 1:
-            if self.anim_timer > 30:      #controls animation speed
+            if self.anim_timer > 10:      #controls animation speed
                 self.leaf_list.rotate(-1)   #animates next frame of leaf
                 self.anim_timer = 0
         
