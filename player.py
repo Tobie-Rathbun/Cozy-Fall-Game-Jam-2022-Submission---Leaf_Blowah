@@ -27,6 +27,7 @@ class Player:
 
     def upgrade(self):
         self.speed = PLAYER_SPEED * 1.2
+        print("upgraded player")
 
     def movement(self):
         self.speed_y += self.gravity

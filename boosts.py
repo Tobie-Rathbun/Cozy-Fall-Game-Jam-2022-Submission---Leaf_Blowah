@@ -49,7 +49,7 @@ class Boost:
         
     def upgrade(self):
         self.boost_speed = int(self.boost_speed * 1.2)
-        pass
+        print("upgraded boosts")
 
     def update(self):
         self.screen_w, self.screen_h = self.game.get_res()

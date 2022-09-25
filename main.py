@@ -152,8 +152,8 @@ class Game:
     def store_menu(self):
         self.store = True
         
-        self.text2 = self.basicFont.render("Aerodynamics", True, WHITE)
-        self.text3 = self.basicFont.render("Wind Booster", True, WHITE)
+        self.text2 = self.basicFont.render("Aerodynamics: 30", True, WHITE)
+        self.text3 = self.basicFont.render("Wind Booster: 50", True, WHITE)
         while self.store:
             self.screen.fill(DARK_PURPLE)
             self.text = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
@@ -182,12 +182,12 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.textRect2.collidepoint(event.pos):
                         if self.current_currency > 30:  #cost
-                            self.game.player.upgrade()
+                            self.player.upgrade()
                             self.current_currency -= 30
                             pass
                     if self.textRect2.collidepoint(event.pos):
                         if self.current_currency > 50:
-                            self.game.boost.upgrade()
+                            self.boost.upgrade()
                             self.current_currency -= 50
                             pass
                     
