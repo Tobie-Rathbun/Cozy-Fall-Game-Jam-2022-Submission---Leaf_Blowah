@@ -23,6 +23,7 @@ class Game:
         self.new_game()
         self.scaled = False
         self.fullscreen = False
+        self.current_currency = 0
 
 
 
@@ -105,9 +106,14 @@ class Game:
         self.screen.fill(DARK_RED)
 
         self.current_score = int(self.player.get_score())
+        self.scores_this_session = []
+        self.scores_this_session.append(self.current_score)
 
-        self.text = self.basicFont.render("Your score was:", True, WHITE)
-        self.text2 = self.basicFont.render(str(self.current_score), True, WHITE)
+        self.current_currency += self.current_score
+        print('currency: ', self.current_currency)
+
+        self.text = self.basicFont.render("Your score was: {}".format(str(self.current_score)), True, WHITE)
+        self.text2 = self.basicFont.render("Your money is: {}".format(str(self.current_currency)), True, WHITE)
         self.text3 = self.basicFont.render("Press SPACE to play again!", True, WHITE)
         self.textRect, self.textRect2, self.textRect3 = self.text.get_rect(), self.text2.get_rect(), self.text3.get_rect()
         self.textRect.centerx, self.textRect2.centerx, self.textRect3.centerx = self.screen.get_rect().centerx, self.screen.get_rect().centerx, self.screen.get_rect().centerx
