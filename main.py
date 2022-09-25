@@ -26,7 +26,6 @@ class Game:
         self.current_currency = 0
 
 
-
     def pre_game(self):         #pre game main menu for starting game and selecting options
         self.game_running = False
         #self.new_game()
@@ -71,12 +70,13 @@ class Game:
 
     def update(self):
         self.player.update()
-        self.map.update()
+        self.player_speed_x = self.player.get_movement()
+        self.map.update(self.player_speed_x)
         pygame.display.flip()
         self.delta_time = self.clock.tick(FPS)
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f}')
-        self.player_speed_x = self.player.get_movement()
-        self.map.move_map(self.player_speed_x)
+        
+        
 
     def draw(self):
         self.screen.fill(DARK_GREEN)
@@ -88,7 +88,13 @@ class Game:
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_f:
+                    self.fullscreen = not self.fullscreen
+                    if self.fullscreen:
+                        self.screen = pygame.display.set_mode(FS_RES, pygame.FULLSCREEN)
+                    else:
+                        self.screen = pygame.display.set_mode(RES, pygame.RESIZABLE)
+            elif event.type == pygame.KEYDOWN and (event.key == pygame.K_p or event.key == pygame.K_PAUSE):
                 self.pause_game()
 
 
