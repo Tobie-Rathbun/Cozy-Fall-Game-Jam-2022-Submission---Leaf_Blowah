@@ -25,6 +25,10 @@ class Player:
         self.launch_cooldown = 0
         self.wind_resistance = WIND_RESISTANCE
 
+    def upgrade(self):
+        self.speed = PLAYER_SPEED * 1.2
+        print("upgraded player")
+
     def movement(self):
         self.speed_y += self.gravity
         if self.speed_x > 0:

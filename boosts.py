@@ -17,7 +17,8 @@ class Boost:
         self.screen_w, self.screen_h = self.game.get_res()
         self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
         self.gravity = GRAVITY
-        self.speed_x, self.speed_y = -BOOST_SPEED, 0
+        self.boost_speed = BOOST_SPEED
+        self.speed_x, self.speed_y = -self.boost_speed, 0
         self.wind_list = self.get_art()
         self.anim_timer = 0
         self.in_air = 1
@@ -43,9 +44,12 @@ class Boost:
         return(self.wind_rect)
 
     def new_boost(self):
-        self.speed_x, self.speed_y = -BOOST_SPEED, 0
+        self.speed_x, self.speed_y = -self.boost_speed, 0
         self.x, self.y = self.screen_w, random.randrange(0, int(self.screen_h/2))
         
+    def upgrade(self):
+        self.boost_speed = int(self.boost_speed * 1.2)
+        print("upgraded boosts")
 
     def update(self):
         self.screen_w, self.screen_h = self.game.get_res()
@@ -58,7 +62,7 @@ class Boost:
                 self.wind_list.rotate(-1)   #animates next frame of wind
                 self.anim_timer = 0
 
-        self.screen_w, self.wind_h = self.game.get_res()
+        self.screen_w, self.screen_h = self.game.get_res()
         self.wind_draw = self.wind_list[0]
         self.wind_rect = self.wind_draw.get_rect()
         self.wind_rect.x, self.wind_rect.y = self.x, self.y
